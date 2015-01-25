@@ -25,12 +25,15 @@ For connecting the hardware to the computer, see the [reference manual](http://a
 Before you run the python module, make sure that you can run the newport powermeter application. This will ensure that the drivers are installed properly and there is no problem communicating with the instrument.
 
 ## Getting the Product ID 
-product_id is needed to intialize the instrument. For my case the product_id was 0xCEC7. I am not sure if this will change on other computer. To Find the product_id or PID, 
+
+The variable "product_id" is needed to intialize the instrument. For my case, the product_id was 0xCEC7. I am not sure if this will change on another computer. To find the product_id or PID,
+ 
 1. Open the Windows Device Manager
 2. Expand the Human Interface Devices node
 3. Double-click the device of interest -- the USB Human Interface Device Properties window appears
 4. Click the Details tab. 
 5. In the Property drop-down box, select Hardware Ids. The product id is some thinglike PID_ABC1, then use product_id = 0xABC1. 
+
 [See Here fore more detailed explaination !] (http://thecurlybrace.blogspot.com/2010/07/how-to-find-usb-device-vendor-and.html)
 
 ## Additional notes
