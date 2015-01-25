@@ -2,10 +2,9 @@
 """
 Created on Sun Jan 12 13:06:17 2014
 
-@author: bjuluri
-Dec 18 2014
 
-
+The power meter application and drivers can be found at 
+http://www.newport.com/1918-R-HandHeld-Optical-Power-and-Energy-Meter/509478/1033/info.aspx#tab_Literature
 
 on a new 32 bit computer: install the drivers and the power application found in the 
 PowerMeter 3.0.2\x86Onx64
@@ -19,11 +18,15 @@ run both PMSetup32on64.msi and USBDriverSetup32On64.msi (in sub folder). this sh
 install drivers and the power meter at C:\Program Files (x86)\Newport
 LIBNAME will be r'C:\Program Files (x86)\Newport\Newport USB Driver\Bin\usbdll.dll'
 
-product_id=0xCEC7
+product_id=0xCEC7. I could find this information in the drivers information in Device manager section.
+ Not sure it will be the same in other cases
 
-before you run this program make sure, you can run the newport power meter applicaiton. This will ensure that the drivers are installed properly and there is no problem with communication.
+
+Before you run this program make sure, you can run the newport power meter applicaiton. 
+This will ensure that the drivers are installed properly and there is no problem with communication.
 
 I am using the method "Use USB Address" to connect and read/write data:
+
 The main functions that belong to this group are:
 newp_usb_init_system - this function opens all USB instruments.
 newp_usb_get_device_info - this function retrieves the USB address of all open instruments.
