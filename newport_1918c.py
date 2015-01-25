@@ -245,13 +245,13 @@ class Newport_1918c():
         :return:[wave,power]
         :return:
         """
-        nd.set_filtering(self.device_id)  # make sure there is no filtering
+        self.set_filtering(self.device_id)  # make sure there is no filtering
         data = []
         num_of_points = (ewave - swave) / (1 * interval) + 1
         import numpy as np
 
         for i in np.linspace(swave, ewave, num_of_points).astype(int):
-            data.extend(nd.read_instant_power(i))
+            data.extend(self.read_instant_power(i))
         data = [float(x) for x in data]
         wave = data[0::2]
         power = data[1::2]
