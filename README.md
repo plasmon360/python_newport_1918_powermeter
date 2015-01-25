@@ -2,7 +2,9 @@
 
 ## Introduction
 
-Python module contains higher level functions to communicate with [Newport 1918 power meter] (http://www.newport.com/1918-R-HandHeld-Optical-Power-and-Energy-Meter/509478/1033/info.aspx#tab_Overview) on windows. I use python ctypes to access low level functions in the Newport's usbdll.dll driver.
+This python module contains higher level functions to communicate with [Newport 1918 power meter] (http://www.newport.com/1918-R-HandHeld-Optical-Power-and-Energy-Meter/509478/1033/info.aspx#tab_Overview) on a Windows computer. It uses python ctypes to access low level functions in the Newport's usbdll.dll driver. 
+
+For connecting the hardware to the computer, see the [reference manual](http://assets.newport.com/webDocuments-EN/images/RevA1918-RPowerMeterUsersManual.pdf)
 
 
 ## Installing the powermeter and usbdriver 
@@ -32,7 +34,7 @@ product_id is needed to intialize the instrument. For my case the product_id was
 [See Here fore more detailed explaination !] (http://thecurlybrace.blogspot.com/2010/07/how-to-find-usb-device-vendor-and.html)
 
 ## Additional notes
-There are many methods in the usbdll.dll, you can see all the methods in usbdll.h (* need upload *).  I am using the "Use USB Address" group of methods to connect, read and write commands. The methods that belong to this group are:
+There are many methods in the usbdll.dll, you can see all the methods in NewPDll.h.  I am using the "Use USB Address" group of methods to connect, read and write instrument commands. The methods that belong to this group are:
 
 1. newp_usb_init_system - this function opens all USB instruments.
 2. newp_usb_get_device_info - this function retrieves the USB address of all open instruments.
