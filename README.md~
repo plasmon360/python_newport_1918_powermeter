@@ -1,0 +1,5 @@
+# python_newport_1918_powermeter
+Python higher level functions to communicate with Newport 1918 power meter.
+Needs usb.dll driver to acess low level functions.
+
+
