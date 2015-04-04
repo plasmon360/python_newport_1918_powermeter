@@ -1,4 +1,4 @@
-# python_newport_1918_powermeter
+# Python class to communicate with Newport 1918 power meter
 
 ## Introduction
 
