@@ -34,10 +34,10 @@ The variable "product_id" is needed to intialize the instrument. For my case, th
 4. Click the Details tab. 
 5. In the Property drop-down box, select Hardware Ids. The product id is some thinglike PID_ABC1, then use product_id = 0xABC1. 
 
-[See Here fore more detailed explaination !] (http://thecurlybrace.blogspot.com/2010/07/how-to-find-usb-device-vendor-and.html)
+[See Here fore more detailed explaination !](http://thecurlybrace.blogspot.com/2010/07/how-to-find-usb-device-vendor-and.html)
 
 ## Additional notes
-* There are many methods in the usbdll.dll, you can see all the methods in [NewPDll.h] (https://github.com/plasmon360/python_newport_1918_powermeter/blob/master/NewpDll.h). The methods I use to connect/disconnection and read/write commands are:
+* There are many methods in the usbdll.dll, you can see all the methods in [NewPDll.h](https://github.com/plasmon360/python_newport_1918_powermeter/blob/master/NewpDll.h). The methods I use to connect/disconnection and read/write commands are:
 
 1. newp_usb_init_system - this function opens all USB instruments.
 2. newp_usb_get_device_info - this function retrieves the USB address of all open instruments.
