@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This python module contains higher level functions to communicate with [Newport 1918 power meter] (http://www.newport.com/1918-R-HandHeld-Optical-Power-and-Energy-Meter/509478/1033/info.aspx#tab_Overview) on a Windows computer. It uses python ctypes to access methods in the Newport's usbdll.dll driver. 
+This python module contains higher level functions to communicate with [Newport 1918 power meter](http://www.newport.com/1918-R-HandHeld-Optical-Power-and-Energy-Meter/509478/1033/info.aspx#tab_Overview) on a Windows computer. It uses python ctypes to access methods in the Newport's usbdll.dll driver. 
 
 For connecting the hardware to the computer, see the [reference manual](http://assets.newport.com/webDocuments-EN/images/RevA1918-RPowerMeterUsersManual.pdf)
 

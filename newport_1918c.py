@@ -8,7 +8,8 @@ Created on Sun Jan 12 13:06:17 2014
 
 from ctypes import *
 import time
-import os, sys
+import os
+import sys
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -18,19 +19,19 @@ class CommandError(Exception):
 
 
 class Newport_1918c():
-    def __init__(self,**kwargs):
+    def __init__(self, **kwargs):
         try:
-            self.LIBNAME = kwargs.get('LIBNAME',r'C:\Program Files (x86)\Newport\Newport USB Driver\Bin\usbdll.dll')
-            print self.LIBNAME
+            self.LIBNAME = kwargs.get(
+                'LIBNAME', r'C:\Program Files (x86)\Newport\Newport USB Driver\Bin\usbdll.dll')
             self.lib = windll.LoadLibrary(self.LIBNAME)
-            self.product_id = kwargs.get('product_id',0xCEC7)
+            self.product_id = kwargs.get('product_id', 0xCEC7)
         except WindowsError as e:
             print e.strerror
             sys.exit(1)
-            # raise CommandError('could not open detector library will all the functions in it: %s' % LIBNAME)
 
         self.open_device_with_product_id()
-        self.instrument = self.get_instrument_list()  # here instrument[0] is the device id, [1] is the model number and [2] is the serial number
+        # here instrument[0] is the device id, [1] is the model number and [2] is the serial number
+        self.instrument = self.get_instrument_list()
         [self.device_id, self.model_number, self.serial_number] = self.instrument
 
     def open_device_all_products_all_devices(self):
@@ -50,11 +51,13 @@ class Newport_1918c():
         useusbaddress = c_bool(1)  # We will only use deviceids or addresses
         num_devices = c_int()
         try:
-            status = self.lib.newp_usb_open_devices(cproductid, useusbaddress, byref(num_devices))
+            status = self.lib.newp_usb_open_devices(
+                cproductid, useusbaddress, byref(num_devices))
 
             if status != 0:
                 self.status = 'Not Connected'
-                raise CommandError("Make sure the device is properly connected")
+                raise CommandError(
+                    "Make sure the device is properly connected")
             else:
                 print 'Number of devices connected: ' + str(num_devices.value) + ' device/devices'
                 self.status = 'Connected'
@@ -86,15 +89,14 @@ class Newport_1918c():
             if status != 0:
                 raise CommandError('Cannot get the instrument_list')
             else:
-                instrument_list = [arInstruments.value, arInstrumentsModel.value, arInstrumentsSN.value]
+                instrument_list = [arInstruments.value,
+                                   arInstrumentsModel.value, arInstrumentsSN.value]
                 print 'Arrays of Device Id\'s: Model number\'s: Serial Number\'s: ' + str(instrument_list)
                 return instrument_list
         except CommandError as e:
             print e
 
-
     def ask(self, query_string):
-
         """
         Write a query and read the response from the device
         :rtype : String
@@ -104,22 +106,25 @@ class Newport_1918c():
         query = create_string_buffer(query_string)
         leng = c_ulong(sizeof(query))
         cdevice_id = c_long(self.device_id)
-        status = self.lib.newp_usb_send_ascii(self.device_id, byref(query), leng)
+        status = self.lib.newp_usb_send_ascii(
+            self.device_id, byref(query), leng)
         if status != 0:
-            raise CommandError('Something apperars to be wrong with your query string')
+            raise CommandError(
+                'Something apperars to be wrong with your query string')
         else:
             pass
         time.sleep(0.2)
         response = create_string_buffer('\000' * 1024)
         leng = c_ulong(1024)
         read_bytes = c_ulong()
-        status = self.lib.newp_usb_get_ascii(cdevice_id, byref(response), leng, byref(read_bytes))
+        status = self.lib.newp_usb_get_ascii(
+            cdevice_id, byref(response), leng, byref(read_bytes))
         if status != 0:
-            raise CommandError('Connection error or Something apperars to be wrong with your query string')
+            raise CommandError(
+                'Connection error or Something apperars to be wrong with your query string')
         else:
             answer = response.value[0:read_bytes.value].rstrip('\r\n')
         return answer
-
 
     def write(self, command_string):
         """
@@ -131,10 +136,12 @@ class Newport_1918c():
         command = create_string_buffer(command_string)
         length = c_ulong(sizeof(command))
         cdevice_id = c_long(self.device_id)
-        status = self.lib.newp_usb_send_ascii(cdevice_id, byref(command), length)
+        status = self.lib.newp_usb_send_ascii(
+            cdevice_id, byref(command), length)
         try:
             if status != 0:
-                raise CommandError('Connection error or  Something apperars to be wrong with your command string')
+                raise CommandError(
+                    'Connection error or  Something apperars to be wrong with your command string')
             else:
                 pass
         except CommandError as e:
@@ -178,7 +185,6 @@ class Newport_1918c():
             self.write('PM:FILT 0')  # no filtering
 
     def read_buffer(self, wavelength=700, buff_size=1000, interval_ms=1):
-
         """
         Stores the power values at a certain wavelength.
         :param wavelength: float: Wavelength at which this operation should be done. float.
@@ -192,7 +198,8 @@ class Newport_1918c():
         self.write('PM:DS:INT ' + str(
             interval_ms * 10))  # to set 1 ms rate we have to give int value of 10. This is strange as manual says the INT should be in ms
         self.write('PM:DS:ENable 1')
-        while int(self.ask('PM:DS:COUNT?')) < buff_size:  # Waits for the buffer is full or not.
+        # Waits for the buffer is full or not.
+        while int(self.ask('PM:DS:COUNT?')) < buff_size:
             time.sleep(0.001 * interval_ms * buff_size / 10)
         actualwavelength = self.ask('PM:Lambda?')
         mean_power = self.ask('PM:STAT:MEAN?')
@@ -211,9 +218,7 @@ class Newport_1918c():
         power = self.ask('PM:Power?')
         return [actualwavelength, power]
 
-
     def sweep(self, swave, ewave, interval, buff_size=1000, interval_ms=1):
-
         """
         Sweeps over wavelength and records the power readings. At each wavelength many readings can be made
         :param swave: int: Start wavelength
@@ -236,7 +241,6 @@ class Newport_1918c():
         return [wave, power_mean, power_std]
 
     def sweep_instant_power(self, swave, ewave, interval):
-
         """
         Sweeps over wavelength and records the power readings. only one reading is made
         :param swave: int: Start wavelength
@@ -292,21 +296,25 @@ class Newport_1918c():
 
 
 if __name__ == '__main__':
-    # Initialze a instrument object. You might have to change the LIBname or product_id.	
-    nd = Newport_1918c(LIBNAME = r'C:\Program Files (x86)\Newport\Newport USB Driver\Bin\usbdll.dll',product_id=0xCEC7 )
+    # Procedure to use this driver
+
+    # Initialze a instrument object. You might have to change the LIBname or product_id.
+    nd = Newport_1918c(
+        LIBNAME=r'C:\Program Files (x86)\Newport\Newport USB Driver\Bin\usbdll.dll', product_id=0xCEC7)
 
     # Print the status of the newport detector.
     print nd.status
 
     if nd.status == 'Connected':
-        print 'Serial number is '+ str(nd.serial_number)
+        print 'Serial number is ' + str(nd.serial_number)
         print 'Model name is ' + str(nd.model_number)
 
         # Print the IDN of the newport detector.
         print 'Connected to ' + nd.ask('*IDN?')
 
         # 100 reading of the newport detector at 500 nm wavelength and plot them
-        [actualwavelength, mean_power, std_power] = nd.read_buffer(wavelength=500, buff_size=10, interval_ms=1)
+        [actualwavelength, mean_power, std_power] = nd.read_buffer(
+            wavelength=500, buff_size=10, interval_ms=1)
         dark_data = nd.sweep(510, 550, 10, buff_size=10, interval_ms=1)
         nd.plotter(dark_data)
 
@@ -327,5 +335,3 @@ if __name__ == '__main__':
     else:
         nd.status != 'Connected'
         print 'Cannot connect.'
-
-
