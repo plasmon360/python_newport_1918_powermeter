@@ -1,14 +1,15 @@
-# Python class to communicate with Newport 1918 power meter
+# Communicate with Newport 1918 power meter in Python 2.7
 
 ## Introduction
 <p align="center"> 
 <img src="https://juluribk.com/images/newport_1918_power_meter.jpg">
 </p>
 
-This python module contains higher level functions to communicate with [Newport 1918 power meter](http://www.newport.com/1918-R-HandHeld-Optical-Power-and-Energy-Meter/509478/1033/info.aspx#tab_Overview) on a Windows computer. It uses python ctypes to access methods in the Newport's usbdll.dll driver. 
+This python module [newport_1918c.py] contains high level functions to communicate with [Newport 1918 power meter](http://www.newport.com/1918-R-HandHeld-Optical-Power-and-Energy-Meter/509478/1033/info.aspx#tab_Overview) on a Windows computer. It uses python ctypes to access methods in the Newport's usbdll.dll driver. 
 
 For connecting the hardware to the computer, see the [reference manual](http://assets.newport.com/webDocuments-EN/images/RevA1918-RPowerMeterUsersManual.pdf)
 
+**This module is written for Python 2.7. It should also work with Python 3+ with minor modifications**
 
 ## Installing the powermeter and usbdriver 
 [Click here to download the newport powermeter Application and driver](http://assets.newport.com/webDocuments-EN/images/Computer_Interface_Software_v3.0.2.zip)
